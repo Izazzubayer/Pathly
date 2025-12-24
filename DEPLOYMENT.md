@@ -156,9 +156,9 @@ FOURSQUARE_API_KEY=your_foursquare_key
 ## Troubleshooting
 
 ### Map Not Displaying
-- Verify app loads without errors (no API keys needed)
 - Check browser console for errors
-- Ensure token has correct permissions
+- Verify network connectivity (MapLibre loads styles from CDN)
+- Check if CORS issues are blocking map tiles
 
 ### Build Failures
 - Check Node.js version (18+)
