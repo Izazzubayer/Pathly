@@ -48,7 +48,7 @@
    ```
 
 2. **Environment Variables**
-   - Add `NEXT_PUBLIC_MAPBOX_TOKEN` in Vercel dashboard
+   - No environment variables needed (uses free services)
    - Settings → Environment Variables
 
 3. **Build Settings**
@@ -66,7 +66,7 @@
    - Publish directory: `.next`
 
 3. **Environment Variables**
-   - Add `NEXT_PUBLIC_MAPBOX_TOKEN` in Netlify dashboard
+   - No environment variables needed (uses free services)
 
 ### Docker
 
@@ -156,7 +156,7 @@ FOURSQUARE_API_KEY=your_foursquare_key
 ## Troubleshooting
 
 ### Map Not Displaying
-- Verify `NEXT_PUBLIC_MAPBOX_TOKEN` is set
+- Verify app loads without errors (no API keys needed)
 - Check browser console for errors
 - Ensure token has correct permissions
 
