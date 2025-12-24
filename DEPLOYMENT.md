@@ -107,9 +107,9 @@ CMD ["node", "server.js"]
 ## Environment Variables
 
 ### Required
-```env
-NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token_here
-```
+**None!** The app uses free, open-source services that don't require API keys:
+- **MapLibre GL**: Free map rendering
+- **OpenRouteService/OSRM**: Free routing APIs
 
 ### Optional (for future features)
 ```env
