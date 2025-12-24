@@ -1,6 +1,6 @@
 'use client';
 
-import { Marker } from 'react-map-gl/mapbox';
+import { Marker } from 'react-map-gl/maplibre';
 import { Star, MapPin } from 'lucide-react';
 import type { Place } from '@/types/places';
 import { cn } from '@/lib/utils';

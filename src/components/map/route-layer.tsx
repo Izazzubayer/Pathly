@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useMap } from 'react-map-gl/mapbox';
+import { useMap } from 'react-map-gl/maplibre';
 import type { RouteSegment } from '@/types/itinerary';
-import type { GeoJSONSource, Layer } from 'mapbox-gl';
+import type { GeoJSONSource } from 'maplibre-gl';
 
 interface RouteLayerProps {
   routes: RouteSegment[];
@@ -82,7 +82,7 @@ export function RouteLayer({ routes, hotel }: RouteLayerProps) {
           'line-width': 3,
           'line-opacity': 0.6,
         },
-      } as Layer);
+      });
     }
 
     return () => {

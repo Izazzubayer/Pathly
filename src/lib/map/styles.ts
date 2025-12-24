@@ -1,10 +1,13 @@
-// Mapbox style configuration
-// Using light theme for calm, minimal feel
+// MapLibre style configuration
+// Using OpenStreetMap-based styles (free, no token required)
 
-export const MAP_STYLE = 'mapbox://styles/mapbox/light-v11';
+// MapLibre uses OpenStreetMap styles - no API key needed!
+export const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
-// Alternative: Use a custom style from Mapbox Studio
-// export const MAP_STYLE = 'mapbox://styles/your-username/your-style-id';
+// Alternative free styles:
+// - 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json' (dark)
+// - 'https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json' (colorful)
+// - 'https://demotiles.maplibre.org/style.json' (demo style)
 
 // Map configuration
 export const MAP_CONFIG = {

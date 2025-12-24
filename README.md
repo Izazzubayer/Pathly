@@ -19,7 +19,7 @@ Transform social inspiration into efficient, route-optimized travel itineraries.
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS v4 + shadcn/ui (zinc theme)
 - **State Management**: Zustand with persistence
-- **Maps**: Mapbox GL JS + react-map-gl
+- **Maps**: MapLibre GL (free, open-source) + react-map-gl
 - **Animations**: Framer Motion
 - **Icons**: Lucide React
 
@@ -29,7 +29,7 @@ Transform social inspiration into efficient, route-optimized travel itineraries.
 
 - Node.js 18+ 
 - npm or yarn
-- Mapbox access token ([Get one here](https://account.mapbox.com/access-tokens/))
+- **No API keys required!** Uses free, open-source mapping services
 
 ### Installation
 
@@ -37,9 +37,8 @@ Transform social inspiration into efficient, route-optimized travel itineraries.
 # Install dependencies
 npm install
 
-# Set up environment variables
-cp .env.local.example .env.local
-# Add your Mapbox token to .env.local
+# No environment variables needed!
+# The app uses free, open-source mapping services (MapLibre + OpenRouteService/OSRM)
 
 # Run development server
 npm run dev
@@ -49,9 +48,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ### Environment Variables
 
-```env
-NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token_here
-```
+**No environment variables required!** The app uses free, open-source services:
+- **MapLibre GL**: Free map rendering (no API key needed)
+- **OpenRouteService/OSRM**: Free routing APIs (no API key needed)
 
 ## Project Structure
 
@@ -84,7 +83,7 @@ src/
 2. **Context Builder**: Chat-style onboarding
 3. **Social Capture**: Instagram link parsing
 4. **Intent Processing**: Place extraction and anchor system
-5. **Map Integration**: Mapbox visualization
+5. **Map Integration**: MapLibre visualization
 6. **Route Engine**: Itinerary optimization algorithm
 7. **Itinerary Views**: Timeline and map split view
 8. **AI & Polish**: Explanations, accessibility, performance

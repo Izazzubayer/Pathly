@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Map, Marker, Popup, ViewStateChangeEvent } from 'react-map-gl/mapbox';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { Map, Marker, Popup, ViewStateChangeEvent } from 'react-map-gl/maplibre';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { MAP_CONFIG } from '@/lib/map/styles';
 import { fitBoundsToPlaces } from '@/lib/map/bounds';
 import { PlaceMarker } from './place-marker';
@@ -41,14 +41,7 @@ export function MapContainer({
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
   const mapRef = useRef<any>(null);
 
-  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
-
   useEffect(() => {
-    if (!mapboxToken) {
-      console.warn('Mapbox token not found. Set NEXT_PUBLIC_MAPBOX_TOKEN in .env.local');
-      return;
-    }
-
     if (fitToPlaces && places.length > 0 && mapRef.current) {
       const bounds = fitBoundsToPlaces(places);
       if (bounds) {
@@ -67,7 +60,7 @@ export function MapContainer({
         }
       }
     }
-  }, [places, fitToPlaces, mapboxToken]);
+  }, [places, fitToPlaces]);
 
   // Set initial view to destination if available
   useEffect(() => {
@@ -80,15 +73,6 @@ export function MapContainer({
     }
   }, [tripDetails, places.length]);
 
-  if (!mapboxToken) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-muted rounded-lg">
-        <p className="text-muted-foreground text-sm">
-          Mapbox token not configured. Add NEXT_PUBLIC_MAPBOX_TOKEN to .env.local
-        </p>
-      </div>
-    );
-  }
 
   const hotelLocation = tripDetails?.hotelLocation;
 
@@ -100,7 +84,6 @@ export function MapContainer({
         latitude={viewState.latitude}
         zoom={viewState.zoom}
         onMove={(evt: ViewStateChangeEvent) => setViewState(evt.viewState)}
-        mapboxAccessToken={mapboxToken}
         ref={mapRef}
         style={{ width: '100%', height: '100%' }}
         interactive={interactive}

@@ -1,6 +1,7 @@
 /**
- * Mapbox Directions API integration
+ * OpenRouteService API integration (FREE, no token required)
  * For calculating actual routes between places
+ * Alternative: OSRM (also free)
  */
 
 export interface DirectionsRequest {
@@ -23,34 +24,75 @@ export interface DirectionsResponse {
 }
 
 /**
- * Get directions from Mapbox Directions API
+ * Get directions from OpenRouteService (FREE, no API key needed)
+ * Falls back to OSRM if OpenRouteService fails
  */
 export async function getDirections(request: DirectionsRequest): Promise<DirectionsResponse | null> {
-  const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+  const coords = request.coordinates.map((c) => `${c[0]},${c[1]}`).join('|');
   
-  if (!mapboxToken) {
-    console.warn('Mapbox token not found');
-    return null;
-  }
+  // Map profile names
+  const profileMap: Record<string, string> = {
+    driving: 'driving-car',
+    walking: 'foot-walking',
+    cycling: 'cycling-regular',
+  };
   
-  const coords = request.coordinates.map((c) => c.join(',')).join(';');
-  const url = `https://api.mapbox.com/directions/v5/mapbox/${request.profile}/${coords}`;
+  const orsProfile = profileMap[request.profile] || 'driving-car';
   
-  const params = new URLSearchParams({
-    access_token: mapboxToken,
-    geometries: 'geojson',
-    overview: 'full',
-  });
-  
+  // Try OpenRouteService first (free, no token needed for basic usage)
   try {
-    const response = await fetch(`${url}?${params}`);
-    if (!response.ok) {
-      throw new Error(`Mapbox API error: ${response.statusText}`);
+    const orsUrl = `https://api.openrouteservice.org/v2/directions/${orsProfile}`;
+    const response = await fetch(orsUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        coordinates: request.coordinates,
+        format: 'geojson',
+      }),
+    });
+    
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        routes: [{
+          geometry: data.features[0].geometry,
+          distance: data.features[0].properties.segments[0].distance,
+          duration: data.features[0].properties.segments[0].duration,
+          legs: data.features[0].properties.segments.map((seg: any) => ({
+            distance: seg.distance,
+            duration: seg.duration,
+            steps: [],
+          })),
+        }],
+      };
     }
-    return await response.json();
   } catch (error) {
-    console.error('Failed to get directions:', error);
-    return null;
+    console.warn('OpenRouteService failed, trying OSRM:', error);
   }
+  
+  // Fallback to OSRM (also free, no token needed)
+  try {
+    const osrmProfile = request.profile === 'cycling' ? 'bike' : request.profile;
+    const osrmUrl = `https://router.project-osrm.org/route/v1/${osrmProfile}/${coords}?overview=full&geometries=geojson`;
+    
+    const response = await fetch(osrmUrl);
+    if (response.ok) {
+      const data = await response.json();
+      return {
+        routes: [{
+          geometry: data.routes[0].geometry,
+          distance: data.routes[0].distance,
+          duration: data.routes[0].duration,
+          legs: data.routes[0].legs || [],
+        }],
+      };
+    }
+  } catch (error) {
+    console.error('Failed to get directions from both services:', error);
+  }
+  
+  return null;
 }
 

@@ -10,9 +10,9 @@
 - [x] Console logs: Minimal (only for debugging)
 
 ### ✅ Environment Variables
-- [x] Mapbox token configuration
+- [x] No API keys required (uses free services)
 - [x] Environment variable documentation
-- [x] `.env.local.example` created
+- [x] Optional `.env.local.example` for future API integrations
 
 ### ✅ Performance
 - [x] Code splitting implemented
